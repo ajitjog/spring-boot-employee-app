@@ -3,6 +3,7 @@ package com.learnwithamit.employeeapp.controller;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -22,6 +23,7 @@ import com.learnwithamit.employeeapp.repository.EmployeeRepository;
 @CrossOrigin("*")
 public class EmployeeController {
 	
+	@Autowired
 	private EmployeeRepository employeeRepository;
 	
 	@GetMapping("/employees")
@@ -39,9 +41,8 @@ public class EmployeeController {
 	}
 	
 	@PostMapping("/employees")
-	public ResponseEntity<?> addNewEmployee(@RequestBody Employee employee) {
-		employeeRepository.save(employee);
-		return new ResponseEntity<>(HttpStatus.CREATED);
+	public ResponseEntity<Employee> addNewEmployee(@RequestBody Employee employee) {
+		return new ResponseEntity<>(employeeRepository.save(employee), HttpStatus.CREATED);
 	}
 	
 	@DeleteMapping("/employees/{employeeId}")
